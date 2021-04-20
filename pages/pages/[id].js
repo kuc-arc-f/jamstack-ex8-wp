@@ -1,19 +1,18 @@
+import Head from 'next/head'
 import React from 'react'
 import Link from 'next/link';
-import Head from 'next/head';
+
 import marked from  'marked'
 
 import Layout from '../../components/layout'
 import LibCommon from '../../libs/LibCommon'
 import LibCms from '../../libs/LibCms'
 //
-export default function Page({ blog, category_name }) {
-// console.log(blog.categories)
-  var content = marked(blog.post_content)
-  var categories = blog.categories
+export default function Page({ blog }) {
+console.log(blog)
   return (
     <Layout>
-    <Head><title key="title">{blog.title}</title></Head>      
+    <Head><title key="title">{blog.post_title}</title></Head>      
     <div className="container">
       <Link href="/" >
         <a className="btn btn-outline-primary mt-2">Back</a>
@@ -26,18 +25,12 @@ export default function Page({ blog, category_name }) {
       <hr /> 
       <h1>{blog.post_title}</h1>
       Date: {blog.post_date}<br />
-      <div>Category :  
-      {categories.map((item, index) => {
-    // console.log(item.show_id ,item.created_at )
-        return (<span key={index} > {item.name} , </span>) 
-      })}  
-      </div>
       <hr />
-      <div id="post_item" dangerouslySetInnerHTML={{__html: `${content}`}}></div>
+      <div id="post_item" dangerouslySetInnerHTML={{__html: `${blog.post_content}`}}></div>
       <hr />                 
     </div>
     <style>{`
-      div#post_item img{
+      div#post_item > p > img{
         max-width : 100%;
         height : auto;
       }
@@ -54,37 +47,35 @@ export default function Page({ blog, category_name }) {
 //
 export const getStaticPaths = async () => {
   const res = await fetch(
-    process.env.BASE_URL + `/api/posts.php`
-  );
-  const repos = await res.json();
+    process.env.BASE_URL + `/api/pages.php`
+  );  
+  const json = await res.json();
+  var page_items = json
   var paths = []
-  repos.map((item, index) => {
+  page_items.map((item, index) => {
     var row = { params: 
       { id: String(item.ID) } 
     }
     paths.push(row)
   })
-// console.log(paths)
+//console.log(page_items)
   return {
     paths: paths,
     fallback: false
   } 
 };
 export const getStaticProps = async context => {
-  const postId = context.params.id
-  var url = process.env.BASE_URL + `/api/postone.php?id=${postId}`
-// console.log(url)
-  const res = await fetch( url);
-  var blog = await res.json(); 
-  var item = blog[0]
-//console.log(item.categories)
+  const id = context.params.id
+//console.log(id)
+  var url = process.env.BASE_URL + `/api/pageone.php?id=${id}`
+  const res = await fetch( url );
+  const json = await res.json();  
+//console.log(url )  
+  var item = json[0]  
   return {
     props: { 
       blog: item,
-      category_name: ""
     },
   }
   
 };
-
-

@@ -17,6 +17,7 @@ const IndexRow = props => (
                   <i className="far fa-calendar"></i>
                 </span>
                 {props.date} , ID : {props.id} <br />
+                Category: {props.category_name} <br />
             </p>  
           </li>
       </ul>

@@ -6,7 +6,7 @@
 
  date    : 2021/04/18
 
- update  :
+ update  : 2021/04/20
 
 ***
 ### Summary
@@ -20,6 +20,8 @@ Next.js + wordpress API , Jamstack SSG sample
 * react : 16.13.1
 * node : 14.11
 * wordpress : 5.7.1
+* php : 7.3
+* mysql : 5.7
 
 ***
 ### Setup
