@@ -41,9 +41,9 @@ yarn deploy
 ***
 ### Blog : 
 
-* Headless CMSで、wordpress API を使用する例
+* wordpress API + Next.js SSGでJamstackする。アップデート
 
-https://zenn.dev/knaka0209/books/4ee53bad905ec2/viewer/36a219
+https://zenn.dev/knaka0209/articles/2501be7ad65d29
 
 ***
 
