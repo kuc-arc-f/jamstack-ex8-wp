@@ -9,12 +9,14 @@ import LibPagenate from '../libs/LibPagenate'
 import LibCms from '../libs/LibCms'
 import IndexRow from './IndexRow';
 import PagesRow from './PagesRow';
+import CategoryRow from './CategoryRow';
 //
 function Page(data) {
     var items = data.blogs
     var page_items = data.page_items
+    var category_items = data.category_items
     var paginateDisp = data.display
-//console.log( items )
+//console.log( category_items )
     return (
     <Layout>
       <Head><title key="title">{data.site_name}</title></Head>      
@@ -36,8 +38,22 @@ function Page(data) {
               </div>
               </div>
             </div>
+            <div className="category_wrap">
+            <div className="row conte mt-2 mb-4">
+                <div className="col-sm-12">
+                  <h2 className="h4_td_title mt-2" >Category</h2>
+                  <div className="category_btn_wrap mb-0">
+                  {category_items.map((item, index) => {
+  // console.log(item )
+                    return (<CategoryRow id={item.ID} key={index} 
+                      name={item.name} />
+                    )
+                  })}                    
+                  </div>
+                </div>
+            </div>
+            </div>          
           </div>
-
           <div className="body_wrap">
             <div id="post_items_box" className="row conte mt-2 mb-4">
               <div className="col-sm-12">
@@ -68,14 +84,17 @@ export const getStaticProps = async context => {
   url = process.env.BASE_URL+`/api/pages.php`
   const resPages = await fetch( url );
   var pages = await resPages.json();
-// console.log(pages)
+  url = process.env.BASE_URL+`/api/category.php`
+  const resCat = await fetch( url );
+  var categories = await resCat.json();
+//console.log(categories)
   LibPagenate.init()
   var display = LibPagenate.is_paging_display(blogs.length)    
   return {
     props : {
       blogs: blogs,
       page_items: pages,
-      category_items: [],
+      category_items: categories,
       site_name : process.env.MY_SITE_NAME,
       info_text : "Sample CMSの関連記事を公開予定しております。",        
       display: display

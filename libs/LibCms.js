@@ -31,11 +31,10 @@ export default {
       var ret = {
           id: 0,
           name: "",
-          save_id: "id0",
       };
       items.forEach(function(item){
 //console.log(item.show_id );
-          if(item.save_id === String(id) ){
+          if(String(item.ID) === String(id) ){
               ret = item
           }
       });
